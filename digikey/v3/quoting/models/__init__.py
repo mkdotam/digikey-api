@@ -15,12 +15,12 @@
 from __future__ import absolute_import
 
 # import models into model package
-from swagger_client.models.api_error_response import ApiErrorResponse
-from swagger_client.models.api_validation_error import ApiValidationError
-from swagger_client.models.quote_delete_detail_response import QuoteDeleteDetailResponse
-from swagger_client.models.quote_detail import QuoteDetail
-from swagger_client.models.quote_detail_request import QuoteDetailRequest
-from swagger_client.models.quote_price_break import QuotePriceBreak
-from swagger_client.models.quote_read_response import QuoteReadResponse
-from swagger_client.models.quote_response import QuoteResponse
-from swagger_client.models.substitute_part import SubstitutePart
+from digikey.v3.quoting.models.api_error_response import ApiErrorResponse
+from digikey.v3.quoting.models.api_validation_error import ApiValidationError
+from digikey.v3.quoting.models.quote_delete_detail_response import QuoteDeleteDetailResponse
+from digikey.v3.quoting.models.quote_detail import QuoteDetail
+from digikey.v3.quoting.models.quote_detail_request import QuoteDetailRequest
+from digikey.v3.quoting.models.quote_price_break import QuotePriceBreak
+from digikey.v3.quoting.models.quote_read_response import QuoteReadResponse
+from digikey.v3.quoting.models.quote_response import QuoteResponse
+from digikey.v3.quoting.models.substitute_part import SubstitutePart

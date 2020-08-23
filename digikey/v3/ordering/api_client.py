@@ -23,9 +23,9 @@ import tempfile
 import six
 from six.moves.urllib.parse import quote
 
-from swagger_client.configuration import Configuration
-import swagger_client.models
-from swagger_client import rest
+from digikey.v3.ordering.configuration import Configuration
+import digikey.v3.ordering.models
+from digikey.v3.ordering import rest
 
 
 class ApiClient(object):

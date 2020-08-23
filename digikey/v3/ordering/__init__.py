@@ -16,18 +16,18 @@
 from __future__ import absolute_import
 
 # import apis into sdk package
-from swagger_client.api.ordering_api import OrderingApi
+from digikey.v3.ordering.api.ordering_api import OrderingApi
 
 # import ApiClient
-from swagger_client.api_client import ApiClient
-from swagger_client.configuration import Configuration
+from digikey.v3.ordering.api_client import ApiClient
+from digikey.v3.ordering.configuration import Configuration
 # import models into sdk package
-from swagger_client.models.address import Address
-from swagger_client.models.api_error_response import ApiErrorResponse
-from swagger_client.models.api_validation_error import ApiValidationError
-from swagger_client.models.contact import Contact
-from swagger_client.models.export_questions import ExportQuestions
-from swagger_client.models.line_item import LineItem
-from swagger_client.models.order_request import OrderRequest
-from swagger_client.models.order_response import OrderResponse
-from swagger_client.models.schedule import Schedule
+from digikey.v3.ordering.models.address import Address
+from digikey.v3.ordering.models.api_error_response import ApiErrorResponse
+from digikey.v3.ordering.models.api_validation_error import ApiValidationError
+from digikey.v3.ordering.models.contact import Contact
+from digikey.v3.ordering.models.export_questions import ExportQuestions
+from digikey.v3.ordering.models.line_item import LineItem
+from digikey.v3.ordering.models.order_request import OrderRequest
+from digikey.v3.ordering.models.order_response import OrderResponse
+from digikey.v3.ordering.models.schedule import Schedule
