@@ -9,7 +9,7 @@ from digikey.exceptions import DigikeyError
 from digikey.v3.productinformation import (KeywordSearchRequest, KeywordSearchResponse, ProductDetails, DigiReelPricing,
                                            ManufacturerProductDetailsRequest)
 from digikey.v3.productinformation.rest import ApiException
-from digikey.v3.quoting import (QuoteResponse, QuoteReadResponse)
+from digikey.v3.quoting import (QuoteReadResponse, QuoteDetailRequest)
 
 logger = logging.getLogger(__name__)
 
@@ -178,4 +178,36 @@ def get_quotes(*args, **kwargs) -> QuoteReadResponse:
 
     if len(args):
         logger.info(f'Retrieves a list of quotes owned by a customer {args[0]} or associated customer.')
+        return client.call_api_function(*args, **kwargs)
+
+def get_quote(*args, **kwargs) -> QuoteReadResponse:
+    client = QuoteApiWrapper('get_quote')
+
+    if len(args):
+        logger.info(f'Retrieves a list of quotes owned by a customer {args[0]} or associated customer.')
+        return client.call_api_function(*args, **kwargs)
+
+def create_quote(*args, **kwargs) -> QuoteReadResponse:
+    client = QuoteApiWrapper('create_quote')
+
+    if 'body' in kwargs and type(kwargs['body']) == QuoteDetailRequest:
+        logger.info(f'Search for: {kwargs["body"].keywords}')
+        return client.call_api_function(*args, **kwargs)
+    else:
+        raise DigikeyError('Please provide a valid QuoteDetailRequest argument')
+
+def add_details_to_quote(*args, **kwargs) -> QuoteReadResponse:
+    client = QuoteApiWrapper('add_details_to_quote')
+
+    if 'body' in kwargs and type(kwargs['body']) == QuoteDetailRequest:
+        logger.info(f'Search for: {kwargs["body"].keywords}')
+        return client.call_api_function(*args, **kwargs)
+    else:
+        raise DigikeyError('Please provide a valid QuoteDetailRequest argument')
+
+def delete_detail_from_quote(*args, **kwargs) -> QuoteReadResponse:
+    client = QuoteApiWrapper('delete_detail_from_quote')
+
+    if len(args):
+        logger.info(f'Delete detail {args[2]} from quote {args[1]} for customer {args[0]}.')
         return client.call_api_function(*args, **kwargs)
