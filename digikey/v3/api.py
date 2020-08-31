@@ -9,7 +9,7 @@ from digikey.exceptions import DigikeyError
 from digikey.v3.productinformation import (KeywordSearchRequest, KeywordSearchResponse, ProductDetails, DigiReelPricing,
                                            ManufacturerProductDetailsRequest)
 from digikey.v3.productinformation.rest import ApiException
-from digikey.v3.quoting import (QuoteResponse)
+from digikey.v3.quoting import (QuoteResponse, QuoteReadResponse)
 
 logger = logging.getLogger(__name__)
 
@@ -27,10 +27,10 @@ class QuoteApiWrapper(object):
             raise DigikeyError('Please provide a valid DIGIKEY_CLIENT_ID and DIGIKEY_CLIENT_SECRET in your env setup')
 
         # Use normal API by default, if DIGIKEY_CLIENT_SANDBOX is True use sandbox API
-        configuration.host = 'https://api.digikey.com/Search/v3'
+        configuration.host = 'https://api.digikey.com/quoting/v3'
         try:
             if bool(strtobool(os.getenv('DIGIKEY_CLIENT_SANDBOX'))):
-                configuration.host = 'https://sandbox-api.digikey.com/Search/v3/'
+                configuration.host = 'https://sandbox-api.digikey.com/quoting/v3/'
                 self.sandbox = True
         except (ValueError, AttributeError):
             pass
@@ -43,7 +43,7 @@ class QuoteApiWrapper(object):
         configuration.access_token = self._digikeyApiToken.access_token
 
         # create an instance of the API class
-        self._api_instance = dq.QuotingApi(dpi.ApiClient(configuration))
+        self._api_instance = dq.QuotingApi(dq.ApiClient(configuration))
 
         # Populate reused ids
         self.authorization = self._digikeyApiToken.get_authorization()
@@ -173,9 +173,9 @@ def manufacturer_product_details(*args, **kwargs) -> KeywordSearchResponse:
         raise DigikeyError('Please provide a valid ManufacturerProductDetailsRequest argument')
 
 
-def get_quotes(*args, **kwargs) -> QuoteResponse:
+def get_quotes(*args, **kwargs) -> QuoteReadResponse:
     client = QuoteApiWrapper('get_quotes')
 
     if len(args):
-        logger.info(f'Retrieves a list of quotes owned by a customer or associated customer. Quote details will not be populated.  Seperate GET requests must be made for details.')
+        logger.info(f'Retrieves a list of quotes owned by a customer {args[0]} or associated customer.')
         return client.call_api_function(*args, **kwargs)
