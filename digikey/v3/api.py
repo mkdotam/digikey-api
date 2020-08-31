@@ -190,8 +190,8 @@ def get_quote(*args, **kwargs) -> QuoteReadResponse:
 def create_quote(*args, **kwargs) -> QuoteReadResponse:
     client = QuoteApiWrapper('create_quote')
 
-    if 'body' in kwargs and type(kwargs['body']) == QuoteDetailRequest:
-        logger.info(f'Search for: {kwargs["body"].keywords}')
+    if 'quote_detail_requests' in kwargs and type(kwargs['quote_detail_requests']) == list:
+        logger.info(f'Create Quote with: {kwargs["quote_detail_requests"]}')
         return client.call_api_function(*args, **kwargs)
     else:
         raise DigikeyError('Please provide a valid QuoteDetailRequest argument')
@@ -199,8 +199,8 @@ def create_quote(*args, **kwargs) -> QuoteReadResponse:
 def add_details_to_quote(*args, **kwargs) -> QuoteReadResponse:
     client = QuoteApiWrapper('add_details_to_quote')
 
-    if 'body' in kwargs and type(kwargs['body']) == QuoteDetailRequest:
-        logger.info(f'Search for: {kwargs["body"].keywords}')
+    if 'quotedetails' in kwargs and type(kwargs['quotedetails']) == list:
+        logger.info(f'Update Quote with: {kwargs["quotedetails"]}')
         return client.call_api_function(*args, **kwargs)
     else:
         raise DigikeyError('Please provide a valid QuoteDetailRequest argument')
