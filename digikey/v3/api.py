@@ -6,10 +6,13 @@ import digikey.v3.productinformation as dpi
 import digikey.v3.quoting as dq
 
 from digikey.exceptions import DigikeyError
+from digikey.v3.productinformation.rest import ApiException
+
 from digikey.v3.productinformation import (KeywordSearchRequest, KeywordSearchResponse, ProductDetails, DigiReelPricing,
                                            ManufacturerProductDetailsRequest)
-from digikey.v3.productinformation.rest import ApiException
-from digikey.v3.quoting import (QuoteReadResponse, QuoteDetailRequest)
+
+from digikey.v3.quoting import (QuoteReadResponse, QuoteResponse, QuoteDetailRequest)
+# from digikey.v3.quoting.rest import ApiException
 
 logger = logging.getLogger(__name__)
 
@@ -65,8 +68,7 @@ class QuoteApiWrapper(object):
             func = getattr(self._api_instance, self.wrapped_function)
             logger.debug(f'CALL wrapped -> {func.__qualname__}')
             api_response = func(*args, self.authorization, self.x_digikey_client_id, **kwargs)
-            self._print_remaining_requests(api_response[2])
-            return api_response[0]
+            return api_response
         except ApiException as e:
             logger.error(f'Exception when calling {self.wrapped_function}: {e}')
 
@@ -187,25 +189,25 @@ def get_quote(*args, **kwargs) -> QuoteReadResponse:
         logger.info(f'Retrieves a list of quotes owned by a customer {args[0]} or associated customer.')
         return client.call_api_function(*args, **kwargs)
 
-def create_quote(*args, **kwargs) -> QuoteReadResponse:
+def create_quote(*args, **kwargs) -> QuoteResponse:
     client = QuoteApiWrapper('create_quote')
 
-    if 'body' in kwargs and type(kwargs['body']) == QuoteDetailRequest:
-        logger.info(f'Search for: {kwargs["body"].keywords}')
+    if 'quote_detail_requests' in kwargs and type(kwargs['quote_detail_requests']) == list:
+        logger.info(f'Create Quote with: {kwargs["quote_detail_requests"]}')
         return client.call_api_function(*args, **kwargs)
     else:
         raise DigikeyError('Please provide a valid QuoteDetailRequest argument')
 
-def add_details_to_quote(*args, **kwargs) -> QuoteReadResponse:
+def add_details_to_quote(*args, **kwargs) -> QuoteResponse:
     client = QuoteApiWrapper('add_details_to_quote')
 
-    if 'body' in kwargs and type(kwargs['body']) == QuoteDetailRequest:
-        logger.info(f'Search for: {kwargs["body"].keywords}')
+    if 'quotedetails' in kwargs and type(kwargs['quotedetails']) == list:
+        logger.info(f'Update Quote with: {kwargs["quotedetails"]}')
         return client.call_api_function(*args, **kwargs)
     else:
         raise DigikeyError('Please provide a valid QuoteDetailRequest argument')
 
-def delete_detail_from_quote(*args, **kwargs) -> QuoteReadResponse:
+def delete_detail_from_quote(*args, **kwargs) -> QuoteResponse:
     client = QuoteApiWrapper('delete_detail_from_quote')
 
     if len(args):
